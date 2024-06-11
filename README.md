@@ -164,7 +164,7 @@ public class OpenApiConfiguration {
             .license(new License().name("Apache 2.0")
                 .url("https://springdoc.org")))
         .externalDocs(new ExternalDocumentation()
-            .description("Learning Platform wiki Documentation")
+            .description("<Nombre de tu pc > wiki Documentation")
             .url("https://github.com/upc-is-si729/daos-language-reference"));
 
     // Add security scheme
