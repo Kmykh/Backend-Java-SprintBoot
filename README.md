@@ -12,7 +12,7 @@ Abrir pgAdmin y crear la base de datos: `<Nombre que requiere la Pc>`.
 
 Abrir el archivo `application.properties` y agregar el siguiente código:
 ```
-server.port: 8090
+server.port: <server que te pide >
 
 ### PostgreSQL
 spring.datasource.driver-class-name: org.postgresql.Driver
