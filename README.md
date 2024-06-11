@@ -49,6 +49,39 @@ En el package principal `pe.edu.upc.learning.platform`, crear la siguiente estru
     - 📄 MessageResource.java
 ```
 
+En el package `domain.model.aggregates` crear la clase `AuditableAbstractAggregateRoot` con el siguiente contenido:
+
+```java
+import jakarta.persistence.*;
+import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.Date;
+
+@EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass
+public class AuditableAbstractAggregateRoot<T extends AbstractAggregateRoot<T>> extends AbstractAggregateRoot<T> {
+
+  @Id
+  @Getter
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Getter
+  @CreatedDate
+  @Column(nullable = false, updatable = false)
+  private Date createdAt;
+
+  @Getter
+  @LastModifiedDate
+  @Column(nullable = false)
+  private Date updatedAt;
+}
+```
+
 En el package `domain.model.entities` crear la clase `AuditableModel` con el siguiente contenido:
 
 ```java
@@ -77,7 +110,111 @@ public class AuditableModel {
 }
 ```
 
+En el package `infrastructure.documentation.openapi.configuration` crear la clase `OpenApiConfiguration` con el siguiente contenido:
+
+```java
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class OpenApiConfiguration {
+  @Bean
+  public OpenAPI learningPlatformOpenApi() {
+    // General configuration
+    var openApi = new OpenAPI();
+    openApi
+        .info(new Info()
+            .title("<Nombre de tu pc >")
+            .description("<Nombre de tu pc > application REST API documentation.")
+            .version("v1.0.0")
+            .license(new License().name("Apache 2.0")
+                .url("https://springdoc.org")))
+        .externalDocs(new ExternalDocumentation()
+            .description("Learning Platform wiki Documentation")
+            .url("https://github.com/upc-is-si729/daos-language-reference"));
+
+    // Add security scheme
+    final String securitySchemeName = "bearerAuth";
+
+    openApi.addSecurityItem(new SecurityRequirement()
+            .addList(securitySchemeName))
+        .components(new Components()
+            .addSecuritySchemes(securitySchemeName,
+                new SecurityScheme()
+                    .name(securitySchemeName)
+                    .type(SecurityScheme.Type.HTTP)
+                    .scheme("bearer")
+                    .bearerFormat("JWT")));
+
+    // Return OpenAPI configuration object with all the settings
+    return openApi;
+  }
+}
+```
+En el package `infrastructure.persistence.jpa.strategy` crear la clase `SnakeCaseWithPluralizedTablePhysicalNamingStrategy` con el siguiente contenido:
+
+```java
+import org.hibernate.boot.model.naming.Identifier;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
+import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
+
+import static io.github.encryptorcode.pluralize.Pluralize.pluralize;
+
+public class SnakeCaseWithPluralizedTablePhysicalNamingStrategy implements PhysicalNamingStrategy {
+  @Override
+  public Identifier toPhysicalCatalogName(Identifier identifier, JdbcEnvironment jdbcEnvironment) {
+    return this.toSnakeCase(identifier);
+  }
+
+  @Override
+  public Identifier toPhysicalSchemaName(Identifier identifier, JdbcEnvironment jdbcEnvironment) {
+    return this.toSnakeCase(identifier);
+  }
+
+  @Override
+  public Identifier toPhysicalTableName(Identifier identifier, JdbcEnvironment jdbcEnvironment) {
+
+    return this.toSnakeCase(this.toPlural(identifier));
+  }
+
+  @Override
+  public Identifier toPhysicalSequenceName(Identifier identifier, JdbcEnvironment jdbcEnvironment) {
+    return this.toSnakeCase(identifier);
+  }
+
+  @Override
+  public Identifier toPhysicalColumnName(Identifier identifier, JdbcEnvironment jdbcEnvironment) {
+    return this.toSnakeCase(identifier);
+  }
+
+  private Identifier toSnakeCase(final Identifier identifier) {
+    if (identifier == null) {
+      return null;
+    }
+    final String regex = "([a-z])([A-Z])";
+    final String replacement = "$1_$2";
+    final String newName = identifier.getText()
+            .replaceAll(regex, replacement)
+            .toLowerCase();
+    return Identifier.toIdentifier(newName);
+  }
+
+  private Identifier toPlural(final Identifier identifier) {
+    final String newName = pluralize(identifier.getText());
+    return Identifier.toIdentifier(newName);
+  }
+}
+```
+
 En el package `interfaces.rest.resources` crear el record `MessageResource` con el siguiente contenido:
+
 ```java
 public record MessageResource(String message) {
 }
