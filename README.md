@@ -77,3 +77,8 @@ En el package `interfaces.rest.resources` crear el record `MessageResource` con 
 public record MessageResource(String message) {
 }
 ```
+
+
+# Swagger UI
+
+Usa la url  http://localhost:8090/swagger-ui/index.html para ejecutar el API.
