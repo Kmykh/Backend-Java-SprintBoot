@@ -29,17 +29,22 @@ spring.jpa.properties.hibernate.format_sql: true
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 ```
 
-## Project structur for shared
+## Lo que va en el shared
 
 En el package principal `pe.edu.upc.learning.platform`, crear la siguiente estructura para el package `shared`.
 
 ```markdown
 - 📁 shared
-  - 📁 domain.model.entities
-    - 📄 AuditableModel.java
+  - 📁 domain.model
+    - 📁 aggregates
+     - 📄 AuditableAbstractAggregateRoot.java
+    - 📁 entities
+     - 📄 AuditableModel.java
   - 📁 infrastructure
     - 📁 documentation.openapi.configuration
+      - 📄 OpenApiConfiguration.java
     - 📁 persistence.jpa.strategy
+      - 📄 SnakeCaseWithPluralizedTablePhysicalNamingStrategy.java
   - 📁 interfaces.rest.resources
     - 📄 MessageResource.java
 ```
