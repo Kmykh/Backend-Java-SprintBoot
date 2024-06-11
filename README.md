@@ -37,13 +37,13 @@ Abrir el .xml y agregar el siguiente codigo en dependecy:
 
 Abrir el archivo `application.properties` y agregar el siguiente código:
 ```
-spring.application.name=u202219984
-server.port: 8090
+spring.application.name=<sucodigo>
+server.port: <ponga el puerto que le pide>
 
 ### PostgreSQL
 spring.datasource.driver-class-name: org.postgresql.Driver
 ###    JDBC : SGDB :// HOST : PORT / DB
-spring.datasource.url: jdbc:postgresql://localhost:5432/opentable
+spring.datasource.url: jdbc:postgresql://localhost:5432/<Nombre que requiere la Pc>
 spring.datasource.username: postgres
 spring.datasource.password: 1234
 
@@ -53,7 +53,7 @@ spring.jpa.show-sql: true
 
 spring.jpa.properties.hibernate.format_sql: true
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-sping.jpa.hibernate.naming.physical-strategy:com.opentable.platform.u202219984.shared.infrastructure.persistence.jpa.configuration.strategy
+sping.jpa.hibernate.naming.physical-strategy:com.opentable.platform.<sucodigo>.shared.infrastructure.persistence.jpa.configuration.strategy
 ```
 
 ## Lo que va en el shared
