@@ -8,6 +8,31 @@ Presione el link para generar el proyecto en sprintBoot: [Generador de Proyectos
 
 Abrir pgAdmin y crear la base de datos: `<Nombre que requiere la Pc>`.
 
+## En el pom.xml 
+
+Abrir el .xml y agregar el siguiente codigo en dependecy:
+
+```
+		<!-- https://mvnrepository.com/artifact/io.github.encryptorcode/pluralize -->
+		<dependency>
+			<groupId>io.github.encryptorcode</groupId>
+			<artifactId>pluralize</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+  
+  ```
+
 ## application.properties
 
 Abrir el archivo `application.properties` y agregar el siguiente código:
