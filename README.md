@@ -247,7 +247,30 @@ public record MessageResource(String message) {
 }
 ```
 
+## Estructura para las carpetas
 
+```markdown
+- 📁 learning
+  - 📁 application.internal
+    - 📁 commandservices
+    - 📁 eventhandlers
+    - 📁 outboundservices.acl
+    - 📁 queryservices
+  - 📁 domain
+    - 📁 exceptions
+    - 📁 model
+      - 📁 aggregates
+      - 📁 commands
+      - 📁 entities
+      - 📁 events
+      - 📁 queries
+      - 📁 valueobjects
+    - 📁 services
+  - 📁 infrastructure.persistence.jpa.repositories
+  - 📁 interfaces.rest
+    - 📁 resources
+    - 📁 transform
+```
 # Swagger UI
 
 Usa la url  http://localhost:8090/swagger-ui/index.html para ejecutar el API.
